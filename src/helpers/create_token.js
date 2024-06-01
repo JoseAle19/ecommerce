@@ -3,13 +3,15 @@ import dotenv from "dotenv";
 import { AuthModel } from "../models/auth.js";
 dotenv.config();
 
-const UserModel = new User();
+const Auth = new AuthModel();
+
+
 export const generateToken = (id) => {
   return new Promise((resolve, reject) => {
     const payload = { id };
-    jwt.sign(payload, process.env.SECRET_KEY, (errr, token) => {
-      if (errr) {
-        reject("No se pudo generar el token");
+    jwt.sign(payload, process.env.SECRET_KEY, (err, token) => {
+      if (err) {
+        reject("error generate token");
       } else {
         resolve(token);
       }
@@ -23,12 +25,11 @@ export const verifyToken = async (token = "") => {
       return null;
     }
     const { id } = jwt.verify(token, process.env.SECRET_KEY);
-    const user = await UserModel.findById(id);
+    const user = await Auth.findById(id);
     if (user) {
       return user;
     }
   } catch (error) {
-    console.log(error);
     return new Error(error);
   }
 };
