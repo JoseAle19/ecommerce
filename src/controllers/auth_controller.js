@@ -5,6 +5,7 @@ export const login = async (req, res) => {
 
     try {
         const user = await Auth.login(req.body)
+        const { password, ...newUser } = user;
         const {id} = user;
         const token = await generateToken(id)
         if (!user) {
@@ -15,7 +16,7 @@ export const login = async (req, res) => {
 
         
         return res.status(200).json({
-            status: true, message: `Ok`, user, token
+            status: true, message: `Ok`, newUser, token
         })
     } catch (error) {
         return res.status(500).json({
