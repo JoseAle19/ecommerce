@@ -5,7 +5,8 @@ export class AuthModel {
         this.con = connection
     }
     login = ({ email, password }) => {
-        const query = `SELECT * FROM users WHERE email LIKE ? and password LIKE ?`;
+
+        const query = `SELECT * FROM users WHERE email LIKE ?`;
         return new Promise((resolve, reject) => {
                 this.con.query(query,[email, password], (err,result)=>{
                     if (err) reject(err);
