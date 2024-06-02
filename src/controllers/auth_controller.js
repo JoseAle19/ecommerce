@@ -1,4 +1,5 @@
 import { generateToken } from "../helpers/create_token.js"
+import { encryptPassword } from "../helpers/encyipt_password.js"
 import { AuthModel } from "../models/auth.js"
 const Auth = new AuthModel()
 export const login = async (req, res) => {
@@ -26,4 +27,20 @@ export const login = async (req, res) => {
     }
 
 
+}
+
+
+export const register = async (req, res) => {
+    req.body.password = await encryptPassword(req.body.password)
+    try {
+        const user = await Auth.create(req.body)
+        const { password, ...newUser } = user;
+        return res.status(200).json({
+            status: true, message: `Ok`, newUser
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: false, message: `Error ${error}`, user: null
+        })
+    }
 }

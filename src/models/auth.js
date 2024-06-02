@@ -13,6 +13,27 @@ export class AuthModel {
                 })
         })
     }
+
+
+    create = ({name, lastName, email,password, rol }) => {
+
+        const query = `INSERT INTO users(name, last_name, email, password, id_rol) VALUES(?, ?, ?, ?, ?);`
+        return new Promise((resolve, reject) => {
+            this.con.query(query, [
+                name,
+                lastName,
+                email,
+                password,
+                rol
+            ], (err, result) => {
+                if (err) reject(err);
+                resolve(result)
+            })
+        })
+    }
+
+
+
     findByEmail = ({ email }) => {
 
         const query = `SELECT * FROM users WHERE email LIKE ?`;
