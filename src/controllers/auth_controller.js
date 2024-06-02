@@ -36,7 +36,7 @@ export const register = async (req, res) => {
         const user = await Auth.create(req.body)
         const { password, ...newUser } = user;
         return res.status(200).json({
-            status: true, message: `Ok`, newUser
+            status: true, message: `User created`, user: newUser.insertId
         })
     } catch (error) {
         return res.status(500).json({
